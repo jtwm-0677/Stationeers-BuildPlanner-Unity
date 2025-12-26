@@ -72,3 +72,11 @@ crashlytics-build.properties
 
 # Windows
 Thumbs.db
+
+# Project memory (local dev notes)
+CLAUDE.md
+docs/partnership-context.md
+docs/continuation-*.md
+
+# External game assets (symlinked or copied from Stationeers)
+Assets/GameAssets/
