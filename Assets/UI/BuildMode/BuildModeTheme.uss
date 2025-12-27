@@ -71,11 +71,12 @@
     right: 0;
     top: 0;
     bottom: 0;
-    width: 200px;
-    padding: 12px;
+    width: 180px;
+    padding: 8px;
     background-color: var(--color-bg-panel);
     border-left-width: 1px;
     border-color: var(--color-border);
+    overflow: hidden;
 }
 
 .panel-header {
@@ -102,6 +103,16 @@
     font-size: 12px;
 }
 
+.grid-toggle:checked Label {
+    color: var(--color-accent);
+    -unity-font-style: bold;
+}
+
+.grid-toggle:checked .unity-toggle__checkmark {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
 .snap-mode-group {
     margin-left: 8px;
 }
@@ -113,6 +124,16 @@
 .snap-mode-group RadioButton Label {
     color: var(--color-text-secondary);
     font-size: 11px;
+}
+
+.snap-mode-group RadioButton:checked Label {
+    color: var(--color-accent);
+    -unity-font-style: bold;
+}
+
+.snap-mode-group RadioButton:checked .unity-radio-button__checkmark-background {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
 }
 
 .floor-visibility-list {

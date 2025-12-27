@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using StationeersBuildPlanner.Core;
 
 namespace StationeersBuildPlanner.Grid
@@ -14,14 +15,13 @@ namespace StationeersBuildPlanner.Grid
         [SerializeField] private bool useSmallGrid = false;
 
         [Header("Appearance")]
-        [SerializeField] private float indicatorSize = 0.2f;
         [SerializeField] private Color indicatorColor = new Color(1f, 0.5f, 0f, 0.8f);
 
         [Header("References")]
         [SerializeField] private Material indicatorMaterial;
 
         private Vector3 currentSnapPosition;
-        private Camera mainCamera;
+        private UnityEngine.Camera mainCamera;
 
         public bool ShowIndicator
         {
@@ -39,7 +39,7 @@ namespace StationeersBuildPlanner.Grid
 
         private void Start()
         {
-            mainCamera = Camera.main;
+            mainCamera = UnityEngine.Camera.main;
 
             if (indicatorMaterial == null)
             {
@@ -66,7 +66,7 @@ namespace StationeersBuildPlanner.Grid
         private void UpdateSnapPosition()
         {
             // Raycast from mouse to find ground position
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             float floorY = FloorManager.Instance?.CurrentFloorY ?? 0f;
 
             // Intersect with floor plane
@@ -111,7 +111,9 @@ namespace StationeersBuildPlanner.Grid
         private void DrawSnapIndicator()
         {
             Vector3 pos = currentSnapPosition;
-            float size = indicatorSize;
+            // Scale indicator to match grid size (half the grid cell)
+            float gridSize = useSmallGrid ? GridConstants.SmallGridSize : GridConstants.MainGridSize;
+            float size = gridSize * 0.5f;
 
             // Draw a small cross at snap position
             GL.Begin(GL.LINES);

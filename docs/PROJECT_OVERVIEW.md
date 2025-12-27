@@ -189,11 +189,23 @@ float gameY = (0.5f - normalizedY) * WorldSize;
 
 ## Planned Features
 
+### Terrain System (Phase 3 - Next Priority)
+- [ ] Parse terrain heightmap data from game files (`Terrain/*.dat`)
+- [ ] Generate Unity Terrain or mesh from heightmap chunks
+- [ ] Apply macro textures (`macro_diffuse.png`, `macro_normal.png`)
+- [ ] 1:1 accuracy with in-game terrain at selected location
+- [ ] "Needs mining" warnings when placing below terrain level
+- [ ] Terrain visibility toggle in Build Mode
+- [ ] Integrate with floor system (terrain hidden on negative floors)
+
 ### Build Mode
 - [ ] Structure placement system
 - [ ] Rotation matching game controls (Ins/Del, Home/End, PgUp/PgDn, C)
 - [ ] Frame/slot system for modular construction
-- [ ] Grid snapping
+- [x] Grid snapping (2m main grid, 0.5m small grid)
+- [x] Floor navigation (Sims-style vertical layers)
+- [x] Grid visualization with toggles
+- [x] Snap indicator
 
 ### Additional Layers
 - [ ] POI layer (points of interest)

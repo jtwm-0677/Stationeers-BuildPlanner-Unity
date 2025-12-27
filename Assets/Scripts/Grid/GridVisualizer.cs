@@ -22,7 +22,7 @@ namespace StationeersBuildPlanner.Grid
         [Header("References")]
         [SerializeField] private Material gridMaterial;
 
-        private Camera mainCamera;
+        private UnityEngine.Camera mainCamera;
 
         public bool ShowMainGrid
         {
@@ -38,7 +38,7 @@ namespace StationeersBuildPlanner.Grid
 
         private void Start()
         {
-            mainCamera = Camera.main;
+            mainCamera = UnityEngine.Camera.main;
 
             // Create grid material if not assigned
             if (gridMaterial == null)
