@@ -1,0 +1,366 @@
+/* World Map Dark Theme - NASA/Modern Aesthetic */
+
+:root {
+    /* Color palette - Dark grayscale with orange accents */
+    --color-bg-primary: rgb(18, 18, 18);
+    --color-bg-secondary: rgb(28, 28, 28);
+    --color-bg-panel: rgba(24, 24, 24, 0.95);
+    --color-bg-hover: rgb(38, 38, 38);
+
+    --color-text-primary: rgb(240, 240, 240);
+    --color-text-secondary: rgb(180, 180, 180);
+    --color-text-muted: rgb(120, 120, 120);
+
+    --color-accent: rgb(255, 140, 50);
+    --color-accent-hover: rgb(255, 160, 80);
+    --color-accent-pressed: rgb(200, 110, 40);
+
+    --color-border: rgb(60, 60, 60);
+    --color-border-focus: rgb(100, 100, 100);
+}
+
+/* Base container */
+.world-map-root {
+    flex-grow: 1;
+    background-color: var(--color-bg-primary);
+}
+
+/* Top bar */
+.top-bar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+    padding: 8px 16px;
+    background-color: var(--color-bg-secondary);
+    border-bottom-width: 1px;
+    border-bottom-color: var(--color-border);
+}
+
+/* Planet dropdown */
+.planet-dropdown {
+    min-width: 180px;
+    height: 32px;
+    background-color: var(--color-bg-panel);
+    border-width: 1px;
+    border-color: var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-primary);
+    padding: 4px 12px;
+}
+
+.planet-dropdown:hover {
+    border-color: var(--color-border-focus);
+}
+
+.planet-dropdown:focus {
+    border-color: var(--color-accent);
+}
+
+/* Toggle button */
+.toggle-button {
+    height: 32px;
+    padding: 6px 16px;
+    background-color: var(--color-bg-panel);
+    border-width: 1px;
+    border-color: var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-primary);
+}
+
+.toggle-button:hover {
+    background-color: var(--color-bg-hover);
+    border-color: var(--color-border-focus);
+}
+
+.toggle-button:active {
+    background-color: var(--color-accent-pressed);
+}
+
+.toggle-button.active {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+/* Map area */
+.map-container {
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-bg-primary);
+}
+
+.map-image {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Ore overlay - positioned over the map */
+.ore-overlay {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    opacity: 0.3;
+}
+
+.ore-overlay-hidden {
+    display: none;
+}
+
+/* Location info panel - floating tooltip style */
+.info-panel {
+    position: absolute;
+    width: 220px;
+    padding: 12px 16px;
+    background-color: var(--color-bg-panel);
+    border-width: 1px;
+    border-color: var(--color-border);
+    border-radius: 6px;
+    pointer-events: none;
+}
+
+.info-panel-hidden {
+    display: none;
+}
+
+.info-title {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+    -unity-font-style: bold;
+}
+
+.info-coordinates {
+    font-size: 16px;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+}
+
+.info-detail {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-bottom: 2px;
+}
+
+/* Confirm button - fixed bottom, left of side panel */
+.confirm-button {
+    position: absolute;
+    right: 280px;
+    bottom: 20px;
+    width: 160px;
+    height: 40px;
+    background-color: var(--color-accent);
+    border-width: 0;
+    border-radius: 4px;
+    color: var(--color-bg-primary);
+    font-size: 14px;
+    -unity-font-style: bold;
+}
+
+.confirm-button-hidden {
+    display: none;
+}
+
+.confirm-button:hover {
+    background-color: var(--color-accent-hover);
+}
+
+.confirm-button:active {
+    background-color: var(--color-accent-pressed);
+}
+
+.confirm-button:disabled {
+    background-color: var(--color-bg-hover);
+    color: var(--color-text-muted);
+}
+
+/* Coordinate display overlay */
+.coordinate-overlay {
+    position: absolute;
+    top: 60px;
+    left: 16px;
+    padding: 8px 12px;
+    background-color: var(--color-bg-panel);
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: var(--color-border);
+}
+
+.coordinate-text {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    -unity-font-style: bold;
+}
+
+/* ========== Side Panel ========== */
+
+.side-panel-container {
+    position: absolute;
+    right: 0;
+    top: 48px;
+    bottom: 0;
+    flex-direction: row;
+    transition-property: right;
+    transition-duration: 0.2s;
+}
+
+.side-panel-container.collapsed {
+    right: -240px;
+}
+
+.side-panel-tab {
+    width: 24px;
+    height: 60px;
+    margin-top: 20px;
+    background-color: var(--color-bg-panel);
+    border-width: 1px;
+    border-right-width: 0;
+    border-color: var(--color-border);
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    padding: 0;
+}
+
+.side-panel-tab:hover {
+    background-color: var(--color-bg-hover);
+    color: var(--color-text-primary);
+}
+
+.side-panel {
+    width: 240px;
+    background-color: var(--color-bg-panel);
+    border-left-width: 1px;
+    border-color: var(--color-border);
+    padding: 12px;
+    overflow: scroll;
+}
+
+.panel-header {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    -unity-font-style: bold;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--color-border);
+}
+
+.panel-header:first-child {
+    margin-top: 0;
+}
+
+.panel-section {
+    margin-bottom: 8px;
+}
+
+/* Layer toggles */
+.layer-toggle {
+    margin-bottom: 6px;
+}
+
+.layer-toggle Label {
+    color: var(--color-text-primary);
+    font-size: 12px;
+}
+
+/* Opacity slider */
+.opacity-slider {
+    margin-left: 16px;
+    margin-bottom: 8px;
+}
+
+.opacity-slider Label {
+    color: var(--color-text-secondary);
+    font-size: 11px;
+    min-width: 50px;
+}
+
+/* Ore legend */
+.ore-legend {
+    padding: 4px 0;
+}
+
+.ore-legend-item {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.ore-legend-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    margin-right: 8px;
+    border-width: 1px;
+    border-color: var(--color-border);
+}
+
+.ore-legend-label {
+    font-size: 12px;
+    color: var(--color-text-primary);
+}
+
+/* Hover info */
+.hover-info {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    white-space: normal;
+}
+
+/* ========== Spawn Markers ========== */
+
+.spawn-markers {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.spawn-marker {
+    position: absolute;
+    width: 20px;
+    height: 28px;
+    pointer-events: auto;
+    overflow: visible;
+}
+
+.spawn-marker-icon {
+    width: 20px;
+    height: 28px;
+    background-color: var(--color-accent);
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border-width: 2px;
+    border-color: rgb(255, 255, 255);
+}
+
+.spawn-marker:hover .spawn-marker-icon {
+    background-color: var(--color-accent-hover);
+}
+
+.spawn-marker-label {
+    position: absolute;
+    top: 32px;
+    left: -40px;
+    width: 100px;
+    font-size: 10px;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-panel);
+    padding: 2px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    -unity-text-align: middle-center;
+}
+
+/* Hide all spawn markers when layer is off */
+.spawn-markers-hidden .spawn-marker {
+    display: none;
+}
+
+/* Hide labels when labels toggle is off */
+.labels-hidden .spawn-marker-label {
+    display: none;
+}

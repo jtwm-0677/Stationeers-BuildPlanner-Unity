@@ -2,6 +2,7 @@
 
 **Last Updated:** 2025-12-26
 **Game Version:** Current as of Dec 2024
+**Added:** Structure assembly system documentation
 
 This document consolidates all game data research for the Build Planner project.
 
@@ -10,7 +11,7 @@ This document consolidates all game data research for the Build Planner project.
 ## Data Source Locations
 
 ### Decompiled Code
-`C:\Development\Stationeers Stuff\Assembly.Csharp Decompiled\Assembly-CSharp`
+`C:\Development\Stationeers Stuff\resources\Assemblies\Assembly-CSharp`
 
 Key files:
 - `Assets\Scripts\Objects\IConstructionKit.cs` - Kit interface
@@ -369,7 +370,164 @@ Small Grid Layer (mounted on frame):
 
 ---
 
+## Structure Assembly System
+
+Stationeers structures are composed of multiple mesh files assembled via Unity prefabs, with animation components controlling moving parts.
+
+### Prefab Composition
+
+Each device prefab is a **hierarchy of GameObjects**, not a single mesh:
+
+```
+StructureAutolathe (root)
+├── Tier1/                    # Tier groupings
+│   ├── State0 (mesh)         # Build state 0 mesh
+│   ├── State1 (mesh)         # Build state 1 mesh
+│   ├── State2 (mesh)         # ...
+│   ├── State3 (mesh)
+│   └── State4 (mesh)         # Completed build
+├── Tier2/
+│   └── ...
+├── SlidingDoor (mesh)        # Moving part - import/export doors
+├── LeverOpen (mesh)          # Moving part - purge lever
+├── BoxColliderButton1RendererTrigger (mesh + collider)
+├── BoxColliderButton2RendererTrigger
+├── BoxColliderButton3RendererTrigger
+└── BinSlot1                  # Container slot
+```
+
+### Separate Mesh Files
+
+Moving parts are individual GLB files composed in prefabs:
+
+| Component | Mesh Files |
+|-----------|------------|
+| Sliding Doors | `SlidingDoor.glb`, `SlidingDoor01.glb`, etc. |
+| Levers | `LeverOpen.glb`, `LeverActivate.glb` |
+| Buttons | `ButtonDevice.glb` |
+
+Location: `C:\Development\Stationeers Stuff\resources\Assets\Mesh\`
+
+### Animation System Class Hierarchy
+
+```
+InteractableAnimComponent (base - handles interactables)
+└── BinaryAnimComponent (on/off binary states)
+    └── BinaryTransformAnimComponent (Transform-based animation)
+        ├── OpenAnimationComponent
+        │   ├── DoorAnimComponent (doors)
+        │   │   ├── AirlockAnimComponent
+        │   │   ├── BlastDoorAnimComponent
+        │   │   ├── GlassDoorAnimComponent
+        │   │   └── ManualHatchAnimComponent
+        │   └── LockerAnimComponent
+        ├── OnOffAnimationComponent
+        │   └── PipeValveAnimComponent
+        └── AssignableBinaryAnimComponent
+            ├── LeverAnimationComponent (levers)
+            ├── ImportAnimationComponent (import chute doors)
+            ├── ExportAnimationComponent (export chute doors)
+            ├── ContainerAnimComponent
+            └── ShutterAnimComponent
+```
+
+### Animation Data Structure
+
+Source: `AnimKeyFrameCollection.cs`, `ObjectAnimData.cs`
+
+```csharp
+// AnimKeyFrameCollection - collection of animated objects
+public class AnimKeyFrameCollection : IKeyFrameCollection
+{
+    public List<ObjectAnimData> AnimData;  // All objects to animate
+}
+
+// ObjectAnimData - single object's animation target
+public class ObjectAnimData
+{
+    public GameObject gameObject;   // Target object
+    public Transform transform;     // Transform to animate
+    public Vector3 position;        // Target local position
+    public Vector3 rotation;        // Target local euler angles
+    public Vector3 scale;           // Target local scale
+    public float tOffset;           // Animation timing offset
+}
+```
+
+### Binary Animation States
+
+Source: `BinaryAnimComponent.cs`
+
+Animations have two states:
+- **state0** - Closed/Off position (e.g., door closed, lever up)
+- **state1** - Open/On position (e.g., door open, lever down)
+
+Animation lerps between states via `MoveTowards()` or `Lerp()`.
+
+### How Moving Parts Work
+
+1. **Prefab contains child GameObjects** for each moving part (door, lever, button)
+2. **Each child has its own mesh** (separate GLB file referenced by GUID)
+3. **Animation component attached** with serialized `state0` and `state1` keyframes
+4. **At runtime:** Animation component lerps the child's Transform between state0 ↔ state1 based on `InteractableState`
+
+Example - Import Chute Door:
+```csharp
+// ImportAnimationComponent reads the parent's Importing state
+protected override int InteractableState
+{
+    get { return this.parentThing.Importing; }  // 0=closed, 1=open
+}
+```
+
+### Key Files for Device Animation
+
+| File | Purpose |
+|------|---------|
+| `BinaryTransformAnimComponent.cs` | Base for position/rotation/scale animations |
+| `AnimKeyFrameCollection.cs` | Stores target transform states |
+| `ObjectAnimData.cs` | Individual object animation data |
+| `ImportAnimationComponent.cs` | Import chute door animation |
+| `ExportAnimationComponent.cs` | Export chute door animation |
+| `LeverAnimationComponent.cs` | Lever animation |
+| `DoorAnimComponent.cs` | Door animation base |
+
+### Unity Prefab Files
+
+Exported prefabs for structures:
+`C:\Development\Stationeers Stuff\resources\unity project file\ExportedProject\Assets\GameObject\`
+
+Example: `StructureAutolathe.prefab` - Large YAML file containing entire hierarchy, mesh references (by GUID), and component serialization.
+
+### Pre-Assembled Device Meshes (PrefabHierarchyObject)
+
+**Discovery:** Complete assembled meshes exist in a separate folder!
+
+| Folder | Contents |
+|--------|----------|
+| `Assets/Mesh/` | Individual mesh components (body only, no doors/levers) |
+| `Assets/PrefabHierarchyObject/` | **Complete assembled prefabs** with all child objects |
+
+Example size comparison for Autolathe:
+- `Assets/Mesh/StructureAutolathe.glb` = 325KB (body mesh only)
+- `Assets/PrefabHierarchyObject/StructureAutolathe.glb` = 4.4MB (complete with doors, levers, buttons)
+
+**Usage:** For devices with moving parts, use the `PrefabHierarchyObject` version to get the complete assembled mesh without needing to parse prefab hierarchies.
+
+**Current Status:** Meshes load correctly but are **untextured**. Material/texture assignment needs research.
+
+Location in Unity project: `Assets/GameAssets/PrefabHierarchy/` (junction to source)
+
+---
+
 ## TODO: Research Needed
+
+### Device Mesh Texturing
+- [ ] Understand how GLB meshes reference materials
+- [ ] Map material names to texture files in `Assets/Texture2D/`
+- [ ] Check if materials are in `Assets/Material/` folder
+- [ ] Write editor script to auto-assign textures based on naming conventions
+- [ ] Investigate Unity import settings for GLB material handling
 
 ### Pipe/Cable Connection Rules
 - [ ] How do pipes validate corner connections?

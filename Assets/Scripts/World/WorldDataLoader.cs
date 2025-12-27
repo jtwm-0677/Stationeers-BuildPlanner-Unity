@@ -85,8 +85,9 @@ namespace StationeersBuildPlanner.World
                 var world = LoadWorld(worldInfo);
                 if (world != null)
                 {
-                    worlds[world.Id] = world;
-                    Debug.Log($"[WorldDataLoader] Loaded {world.Id}: {world.StartLocations.Count} spawn points, {world.OreRegions.Count} ore regions");
+                    // Key by FolderName for consistent lookup in WorldMapController
+                    worlds[worldInfo.FolderName] = world;
+                    Debug.Log($"[WorldDataLoader] Loaded {worldInfo.FolderName}: {world.StartLocations.Count} spawn points, {world.OreRegions.Count} ore regions");
                 }
             }
 

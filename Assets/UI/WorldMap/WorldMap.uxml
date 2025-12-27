@@ -1,0 +1,67 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements"
+         xsi="http://www.w3.org/2001/XMLSchema-instance"
+         engine="UnityEngine.UIElements" editor="UnityEditor.UIElements"
+         noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+         editor-extension-mode="False">
+
+    <Style src="WorldMapTheme.uss" />
+
+    <ui:VisualElement name="world-map-root" class="world-map-root">
+
+        <!-- Top Bar -->
+        <ui:VisualElement name="top-bar" class="top-bar">
+            <ui:VisualElement style="flex-direction: row; align-items: center;">
+                <ui:Label text="Planet:" style="color: rgb(180, 180, 180); margin-right: 8px;" />
+                <ui:DropdownField name="planet-dropdown" class="planet-dropdown" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Map Container -->
+        <ui:VisualElement name="map-container" class="map-container">
+            <ui:VisualElement name="map-image" class="map-image" />
+            <ui:VisualElement name="ore-overlay" class="ore-overlay ore-overlay-hidden" />
+            <ui:VisualElement name="spawn-markers" class="spawn-markers" />
+        </ui:VisualElement>
+
+        <!-- Collapsible Side Panel -->
+        <ui:VisualElement name="side-panel-container" class="side-panel-container">
+            <ui:Button name="side-panel-tab" text="◀" class="side-panel-tab" />
+            <ui:VisualElement name="side-panel" class="side-panel">
+                <ui:Label text="MAP LAYERS" class="panel-header" />
+
+                <!-- Layer Toggles -->
+                <ui:VisualElement class="panel-section">
+                    <ui:Toggle name="toggle-ore" label="Ore Deposits" class="layer-toggle" />
+                    <ui:Slider name="ore-opacity" label="Opacity" low-value="0" high-value="1" value="0.3" class="opacity-slider" />
+                    <ui:Toggle name="toggle-spawns" label="Spawn Points" value="true" class="layer-toggle" />
+                    <ui:Toggle name="toggle-labels" label="Show Labels" value="true" class="layer-toggle" />
+                </ui:VisualElement>
+
+                <!-- Ore Legend -->
+                <ui:Label text="ORE LEGEND" class="panel-header" />
+                <ui:VisualElement name="ore-legend" class="ore-legend" />
+
+                <!-- Hover Info -->
+                <ui:Label text="HOVER INFO" class="panel-header" />
+                <ui:Label name="hover-info" text="--" class="hover-info" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Coordinate Overlay (shows mouse position) -->
+        <ui:VisualElement name="coordinate-overlay" class="coordinate-overlay">
+            <ui:Label name="coordinate-text" text="X: 0  Y: 0" class="coordinate-text" />
+        </ui:VisualElement>
+
+        <!-- Location Info Tooltip (floating, click-through) -->
+        <ui:VisualElement name="info-panel" class="info-panel info-panel-hidden">
+            <ui:Label text="SELECTED LOCATION" class="info-title" />
+            <ui:Label name="info-coordinates" text="Coordinates: X: 0  Y: 0" class="info-coordinates" />
+            <ui:Label name="info-nearest-spawn" text="Nearest Spawn: --" class="info-detail" />
+            <ui:Label name="info-ore-access" text="Ore Access: --" class="info-detail" />
+        </ui:VisualElement>
+
+        <!-- Confirm Button (fixed bottom-right) -->
+        <ui:Button name="confirm-button" text="Confirm Location" class="confirm-button confirm-button-hidden" />
+
+    </ui:VisualElement>
+</ui:UXML>
