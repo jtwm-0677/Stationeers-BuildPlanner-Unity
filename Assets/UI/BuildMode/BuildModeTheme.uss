@@ -1,0 +1,139 @@
+/* Build Mode Dark Theme - Matches World Map styling */
+
+:root {
+    --color-bg-primary: rgb(18, 18, 18);
+    --color-bg-secondary: rgb(28, 28, 28);
+    --color-bg-panel: rgba(24, 24, 24, 0.95);
+    --color-bg-hover: rgb(38, 38, 38);
+
+    --color-text-primary: rgb(240, 240, 240);
+    --color-text-secondary: rgb(180, 180, 180);
+    --color-text-muted: rgb(120, 120, 120);
+
+    --color-accent: rgb(255, 140, 50);
+    --color-accent-hover: rgb(255, 160, 80);
+
+    --color-border: rgb(60, 60, 60);
+}
+
+.build-mode-root {
+    flex-grow: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Floor Navigation */
+.floor-nav {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    translate: -50% 0;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: var(--color-bg-panel);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: var(--color-border);
+}
+
+.floor-button {
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-bg-secondary);
+    border-width: 1px;
+    border-color: var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-primary);
+    font-size: 16px;
+}
+
+.floor-button:hover {
+    background-color: var(--color-bg-hover);
+    border-color: var(--color-accent);
+}
+
+.floor-label {
+    min-width: 80px;
+    margin: 0 12px;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+/* Grid Panel */
+.grid-panel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    padding: 12px;
+    background-color: var(--color-bg-panel);
+    border-left-width: 1px;
+    border-color: var(--color-border);
+}
+
+.panel-header {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    -unity-font-style: bold;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--color-border);
+}
+
+.panel-header:first-child {
+    margin-top: 0;
+}
+
+.grid-toggle {
+    margin-bottom: 6px;
+}
+
+.grid-toggle Label {
+    color: var(--color-text-primary);
+    font-size: 12px;
+}
+
+.snap-mode-group {
+    margin-left: 8px;
+}
+
+.snap-mode-group RadioButton {
+    margin-bottom: 4px;
+}
+
+.snap-mode-group RadioButton Label {
+    color: var(--color-text-secondary);
+    font-size: 11px;
+}
+
+.floor-visibility-list {
+    max-height: 200px;
+    overflow: scroll;
+}
+
+/* Coordinates Display */
+.coords-display {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    padding: 8px 12px;
+    background-color: var(--color-bg-panel);
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: var(--color-border);
+}
+
+.coords-label {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    margin-bottom: 2px;
+}

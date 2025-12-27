@@ -1,0 +1,44 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements"
+         xsi="http://www.w3.org/2001/XMLSchema-instance"
+         engine="UnityEngine.UIElements"
+         noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+         editor-extension-mode="False">
+
+    <Style src="BuildModeTheme.uss" />
+
+    <ui:VisualElement name="build-mode-root" class="build-mode-root">
+
+        <!-- Floor Navigation (Top) -->
+        <ui:VisualElement name="floor-nav" class="floor-nav">
+            <ui:Button name="floor-up" text="▲" class="floor-button" />
+            <ui:Label name="floor-label" text="Floor 0" class="floor-label" />
+            <ui:Button name="floor-down" text="▼" class="floor-button" />
+        </ui:VisualElement>
+
+        <!-- Grid Controls (Side Panel) -->
+        <ui:VisualElement name="grid-panel" class="grid-panel">
+            <ui:Label text="GRID" class="panel-header" />
+
+            <ui:Toggle name="toggle-main-grid" label="Main Grid (2m)" value="true" class="grid-toggle" />
+            <ui:Toggle name="toggle-small-grid" label="Small Grid (0.5m)" class="grid-toggle" />
+            <ui:Toggle name="toggle-snap-indicator" label="Snap Indicator" value="true" class="grid-toggle" />
+
+            <ui:Label text="SNAP MODE" class="panel-header" />
+            <ui:RadioButtonGroup name="snap-mode" value="0" class="snap-mode-group">
+                <ui:RadioButton label="Main Grid" value="0" />
+                <ui:RadioButton label="Small Grid" value="1" />
+            </ui:RadioButtonGroup>
+
+            <ui:Label text="FLOOR VISIBILITY" class="panel-header" />
+            <ui:VisualElement name="floor-visibility-list" class="floor-visibility-list" />
+        </ui:VisualElement>
+
+        <!-- Coordinates Display (Bottom Left) -->
+        <ui:VisualElement name="coords-display" class="coords-display">
+            <ui:Label name="coords-world" text="World: (0, 0, 0)" class="coords-label" />
+            <ui:Label name="coords-grid" text="Grid: (0, 0, 0)" class="coords-label" />
+            <ui:Label name="coords-floor" text="Floor: 0" class="coords-label" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>
